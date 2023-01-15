@@ -1,7 +1,8 @@
-import axios from 'axios'
-import { GetStaticPaths, GetStaticProps } from 'next'
-import Image from 'next/image'
 import { useState } from 'react'
+import { GetStaticPaths, GetStaticProps } from 'next'
+import Head from 'next/head'
+import Image from 'next/image'
+import axios from 'axios'
 import Stripe from 'stripe'
 import { stripe } from '../../lib/stripe'
 import {
@@ -12,7 +13,6 @@ import {
 import { priceFormatter } from '../../utils/priceFormatter'
 
 interface ProductProps {
-  id: string
   name: string
   imageUrl: string
   price: string
@@ -21,7 +21,6 @@ interface ProductProps {
 }
 
 export default function Product({
-  id,
   name,
   imageUrl,
   price,
@@ -46,21 +45,31 @@ export default function Product({
   }
 
   return (
-    <ProductContainer>
-      <ImageContainer>
-        <Image src={imageUrl} alt="" width={520} height={480} />
-      </ImageContainer>
-      <ProductDetail>
-        <h1>{name}</h1>
-        <span>{price}</span>
+    <>
+      <Head>
+        <title>{name} | Ignite Shop</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+      </Head>
 
-        <p>{description}</p>
+      <ProductContainer>
+        <ImageContainer>
+          <Image src={imageUrl} alt="" width={520} height={480} />
+        </ImageContainer>
+        <ProductDetail>
+          <h1>{name}</h1>
+          <span>{price}</span>
 
-        <button onClick={handleBuyProduct} disabled={isCreatingCheckoutSession}>
-          Comprar agora
-        </button>
-      </ProductDetail>
-    </ProductContainer>
+          <p>{description}</p>
+
+          <button
+            onClick={handleBuyProduct}
+            disabled={isCreatingCheckoutSession}
+          >
+            Comprar agora
+          </button>
+        </ProductDetail>
+      </ProductContainer>
+    </>
   )
 }
 
@@ -94,7 +103,6 @@ export const getStaticProps: GetStaticProps<any, { id: string }> = async ({
 
   return {
     props: {
-      id: product.id,
       name: product.name,
       imageUrl: product.images[0],
       price: priceFormatter.format(Number(price.unit_amount) / 100),
