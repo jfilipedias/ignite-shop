@@ -1,4 +1,4 @@
-import { GetStaticPropsResult } from 'next'
+import { GetStaticProps } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
 import Stripe from 'stripe'
@@ -36,7 +36,11 @@ export default function Home({ products }: HomeProps) {
 
       <HomeContainer ref={sliderRef} className="keen-slider">
         {products.map((product) => (
-          <Link key={product.id} href={`/product/${product.id}`}>
+          <Link
+            key={product.id}
+            href={`/product/${product.id}`}
+            prefetch={false}
+          >
             <Product className="keen-slider__slide">
               <Image src={product.imageUrl} alt="" width={520} height={480} />
               <footer>
@@ -51,9 +55,7 @@ export default function Home({ products }: HomeProps) {
   )
 }
 
-export async function getStaticProps(): Promise<
-  GetStaticPropsResult<HomeProps>
-> {
+export const getStaticProps: GetStaticProps<HomeProps> = async () => {
   const response = await stripe.products.list({
     expand: ['data.default_price'],
     active: true,
@@ -72,6 +74,6 @@ export async function getStaticProps(): Promise<
 
   return {
     props: { products },
-    revalidate: 60 * 60 * 2, // 2 hours
+    revalidate: 60 * 60 * 2, // 2 hours in seconds
   }
 }
