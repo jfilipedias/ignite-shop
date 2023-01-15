@@ -8,6 +8,7 @@ import { HomeContainer, Product } from '../styles/pages/home'
 import { priceFormatter } from '../utils/priceFormatter'
 
 import 'keen-slider/keen-slider.min.css'
+import Link from 'next/link'
 
 interface HomeProps {
   products: {
@@ -35,13 +36,15 @@ export default function Home({ products }: HomeProps) {
 
       <HomeContainer ref={sliderRef} className="keen-slider">
         {products.map((product) => (
-          <Product key={product.id} className="keen-slider__slide">
-            <Image src={product.imageUrl} alt="" width={520} height={480} />
-            <footer>
-              <strong>{product.name}</strong>
-              <span>{product.price}</span>
-            </footer>
-          </Product>
+          <Link key={product.id} href={`/product/${product.id}`}>
+            <Product className="keen-slider__slide">
+              <Image src={product.imageUrl} alt="" width={520} height={480} />
+              <footer>
+                <strong>{product.name}</strong>
+                <span>{product.price}</span>
+              </footer>
+            </Product>
+          </Link>
         ))}
       </HomeContainer>
     </>
