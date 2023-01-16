@@ -1,5 +1,6 @@
 import type { AppProps } from 'next/app'
 import Image from 'next/image'
+import Link from 'next/link'
 import { Roboto } from '@next/font/google'
 import logoImg from '../assets/logo.svg'
 import { globalStyles } from '../styles/global'
@@ -16,7 +17,9 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <Container className={roboto.className}>
       <Header>
-        <Image src={logoImg} alt="" />
+        <Link href="/">
+          <Image src={logoImg} alt="" />
+        </Link>
       </Header>
 
       <Component {...pageProps} />
