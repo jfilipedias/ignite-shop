@@ -1,5 +1,5 @@
 import * as Dialog from '@radix-ui/react-dialog'
-import { styled } from '@styles/.'
+import { keyframes, styled } from '@styles/.'
 
 export const CartTrigger = styled(Dialog.Trigger, {
   display: 'flex',
@@ -12,6 +12,11 @@ export const CartTrigger = styled(Dialog.Trigger, {
   background: '$gray800',
   color: '$gray400',
   cursor: 'pointer',
+})
+
+const contentShow = keyframes({
+  '0%': { opacity: 0, transform: 'translate(16px, 0)' },
+  '100%': { opacity: 1, transform: 'translate(0, 0)' },
 })
 
 export const CartContent = styled(Dialog.Content, {
@@ -30,6 +35,7 @@ export const CartContent = styled(Dialog.Content, {
   background: '$gray800',
   boxShadow: '-4px 0px 30px rgba(0, 0, 0, 0.8)',
   color: '$gray100',
+  animation: `${contentShow} 150ms cubic-bezier(0.16, 1, 0.3, 1)`,
 })
 
 export const CartClose = styled(Dialog.Close, {
