@@ -5,6 +5,7 @@ import Image from 'next/image'
 import axios from 'axios'
 import Stripe from 'stripe'
 import { stripe } from '@libs/stripe'
+import { Button } from '@styles/components/button'
 import {
   ImageContainer,
   ProductContainer,
@@ -61,12 +62,12 @@ export default function Product({
 
           <p>{description}</p>
 
-          <button
+          <Button
             onClick={handleBuyProduct}
             disabled={isCreatingCheckoutSession}
           >
             Comprar agora
-          </button>
+          </Button>
         </ProductDetail>
       </ProductContainer>
     </>
