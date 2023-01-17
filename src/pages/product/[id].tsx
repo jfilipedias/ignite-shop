@@ -4,13 +4,13 @@ import Head from 'next/head'
 import Image from 'next/image'
 import axios from 'axios'
 import Stripe from 'stripe'
-import { stripe } from '../../lib/stripe'
+import { stripe } from '@libs/stripe'
 import {
   ImageContainer,
   ProductContainer,
   ProductDetail,
-} from '../../styles/pages/product'
-import { priceFormatter } from '../../utils/priceFormatter'
+} from '@styles/pages/product'
+import { priceFormatter } from '@utils/priceFormatter'
 
 interface ProductProps {
   name: string

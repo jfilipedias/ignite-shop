@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { NotFoundContainer } from '../styles/pages/404'
+import { NotFoundContainer } from '@styles/pages/404'
 
 export default function NotFound() {
   return (

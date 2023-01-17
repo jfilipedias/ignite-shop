@@ -3,8 +3,8 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { Roboto } from '@next/font/google'
 import logoImg from '../assets/logo.svg'
-import { globalStyles } from '../styles/global'
-import { Container, Header } from '../styles/pages/app'
+import { globalStyles } from '@styles/global'
+import { Container } from '@styles/pages/app'
 
 const roboto = Roboto({
   weight: ['400', '700'],
