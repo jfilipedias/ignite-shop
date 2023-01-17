@@ -1,8 +1,7 @@
-import { useState } from 'react'
+import { useContext } from 'react'
 import { GetStaticPaths, GetStaticProps } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
-import axios from 'axios'
 import Stripe from 'stripe'
 import { stripe } from '@libs/stripe'
 import { Button } from '@styles/components/button'
@@ -12,37 +11,32 @@ import {
   ProductDetail,
 } from '@styles/pages/product'
 import { priceFormatter } from '@utils/priceFormatter'
+import { CartContext } from '../../contexts/cartContext'
 
 interface ProductProps {
   name: string
-  imageUrl: string
-  price: string
   description: string
+  imageUrl: string
   priceId: string
+  unitAmount: number
 }
 
 export default function Product({
   name,
-  imageUrl,
-  price,
   description,
+  imageUrl,
   priceId,
+  unitAmount,
 }: ProductProps) {
-  const [isCreatingCheckoutSession, setIsCreatingCheckoutSession] =
-    useState(false)
+  const { addItem } = useContext(CartContext)
 
-  async function handleBuyProduct() {
-    try {
-      setIsCreatingCheckoutSession(true)
-      const response = await axios.post('/api/checkout', {
-        priceId,
-      })
-      const { checkoutUrl } = response.data
-      window.location.href = checkoutUrl
-    } catch (err) {
-      setIsCreatingCheckoutSession(false)
-      alert('Falha ao criar a sessão!')
-    }
+  function handleAddToCart() {
+    addItem({
+      name,
+      imageUrl,
+      priceId,
+      unitAmount,
+    })
   }
 
   return (
@@ -58,16 +52,11 @@ export default function Product({
         </ImageContainer>
         <ProductDetail>
           <h1>{name}</h1>
-          <span>{price}</span>
+          <span>{priceFormatter.format(Number(unitAmount) / 100)}</span>
 
           <p>{description}</p>
 
-          <Button
-            onClick={handleBuyProduct}
-            disabled={isCreatingCheckoutSession}
-          >
-            Comprar agora
-          </Button>
+          <Button onClick={handleAddToCart}>Comprar agora</Button>
         </ProductDetail>
       </ProductContainer>
     </>
@@ -105,10 +94,10 @@ export const getStaticProps: GetStaticProps<any, { id: string }> = async ({
   return {
     props: {
       name: product.name,
-      imageUrl: product.images[0],
-      price: priceFormatter.format(Number(price.unit_amount) / 100),
       description: product.description,
+      imageUrl: product.images[0],
       priceId: price.id,
+      unitAmount: price.unit_amount,
     },
     revalidate: 60 * 60 * 1, // 1 hour in seconds
   }

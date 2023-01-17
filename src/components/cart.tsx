@@ -1,6 +1,9 @@
+import { useContext, useState } from 'react'
+import Image from 'next/image'
 import { Handbag, X } from 'phosphor-react'
 import { Roboto } from '@next/font/google'
 import * as Dialog from '@radix-ui/react-dialog'
+import { CartContext } from '@contexts/cartContext'
 import { Button } from '@styles/components/button'
 import {
   CartClose,
@@ -12,6 +15,8 @@ import {
   ImageContainer,
   TotalsContainer,
 } from '@styles/components/cart'
+import axios from 'axios'
+import { priceFormatter } from '../utils/priceFormatter'
 
 const roboto = Roboto({
   weight: ['400', '700'],
@@ -19,6 +24,38 @@ const roboto = Roboto({
 })
 
 export function Cart() {
+  const { items, removeItem } = useContext(CartContext)
+
+  const [isCreatingCheckoutSession, setIsCreatingCheckoutSession] =
+    useState(false)
+
+  const totalValue = items.reduce((acc, item) => {
+    return (acc += item.unitAmount / 100)
+  }, 0)
+
+  async function handleBuyProduct() {
+    try {
+      setIsCreatingCheckoutSession(true)
+
+      const lineItems = items.map((item) => {
+        return {
+          price: item.priceId,
+          quantity: 1,
+        }
+      })
+
+      const response = await axios.post('/api/checkout', {
+        lineItems,
+      })
+
+      const { checkoutUrl } = response.data
+      window.location.href = checkoutUrl
+    } catch (err) {
+      setIsCreatingCheckoutSession(false)
+      alert('Falha ao criar a sessão!')
+    }
+  }
+
   return (
     <Dialog.Root>
       <CartTrigger>
@@ -35,15 +72,29 @@ export function Cart() {
             <CartTitle>Sacola de compras</CartTitle>
 
             <section>
-              <CartProduct>
-                <ImageContainer></ImageContainer>
+              {items.map((item) => (
+                <CartProduct key={item.priceId}>
+                  <ImageContainer>
+                    <Image
+                      src={item.imageUrl}
+                      alt=""
+                      width={102}
+                      height={102}
+                    />
+                  </ImageContainer>
 
-                <div>
-                  <span>Camiseta Maratona Explorer 2</span>
-                  <strong>R$ 79,00</strong>
-                  <button className={roboto.className}>Remover</button>
-                </div>
-              </CartProduct>
+                  <div>
+                    <span>Camiseta Maratona Explorer 2</span>
+                    <strong>R$ 79,00</strong>
+                    <button
+                      className={roboto.className}
+                      onClick={() => removeItem(item.priceId)}
+                    >
+                      Remover
+                    </button>
+                  </div>
+                </CartProduct>
+              ))}
             </section>
           </ContentContainer>
 
@@ -51,16 +102,21 @@ export function Cart() {
             <section>
               <div>
                 <span>Quantidade</span>
-                <span>3</span>
+                <span>{items.length}</span>
               </div>
 
               <div>
                 <strong>Valor total</strong>
-                <strong>R$ 270,00</strong>
+                <strong>{priceFormatter.format(totalValue)}</strong>
               </div>
             </section>
 
-            <Button>Finalizar compra</Button>
+            <Button
+              disabled={isCreatingCheckoutSession}
+              onClick={handleBuyProduct}
+            >
+              Finalizar compra
+            </Button>
           </TotalsContainer>
         </CartContent>
       </Dialog.Portal>

@@ -80,8 +80,6 @@ export const CartProduct = styled('div', {
 
     strong: {},
 
-    a: {},
-
     button: {
       border: 0,
       background: 'transparent',
