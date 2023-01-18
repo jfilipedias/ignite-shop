@@ -84,8 +84,10 @@ export function Cart() {
                   </ImageContainer>
 
                   <div>
-                    <span>Camiseta Maratona Explorer 2</span>
-                    <strong>R$ 79,00</strong>
+                    <span>{item.name}</span>
+                    <strong>
+                      {priceFormatter.format(item.unitAmount / 100)}
+                    </strong>
                     <button
                       className={roboto.className}
                       onClick={() => removeItem(item.priceId)}
