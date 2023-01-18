@@ -12,6 +12,15 @@ O Ignite Shop é um ecommerce para compra de camisetas desenvolvido com Next.js 
   <img alt="Image apresentando a interface do projeto ignite shop" title="Ignite Shop" src="./docs/cover.png" />
 </div>
 
+## Extras
+
+Foram adicionadas algumas funcionalidades além do proposto durante o ignite:
+
+- [x] Página de erro 404
+- [ ] Botão para controle do slider
+- [ ] Modal para feedback de produto já adicionado ao carrinho
+- [ ] Responsividade
+
 ## Getting Started
 
 Para executar esse projeto será necessário ter o [Node.js](https://nodejs.org/) e o [npm](https://npmjs.com/) instalados.
@@ -38,6 +47,7 @@ Por fim, é possível realizar testes de pagamento com uma série de cartões de
 
 - [Axios](https://axios-http.com)
 - [ESLint](https://eslint.org/)
+- [Keen Slider](https://keen-slider.io/)
 - [Next.js](https://nextjs.org/)
 - [Radix](https://radix-ui.com/)
 - [ReactJS](https://reactjs.org/)
