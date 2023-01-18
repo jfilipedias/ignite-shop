@@ -5,6 +5,7 @@ export const CartTrigger = styled(Dialog.Trigger, {
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
+  position: 'relative',
   width: '3rem',
   height: '3rem',
   border: 0,
@@ -12,6 +13,23 @@ export const CartTrigger = styled(Dialog.Trigger, {
   background: '$gray800',
   color: '$gray400',
   cursor: 'pointer',
+
+  span: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'absolute',
+    top: -8,
+    right: -8,
+    width: 30,
+    height: 30,
+    background: '$green500',
+    border: '3px solid $gray900',
+    borderRadius: 9999,
+    color: '$white',
+    fontSize: '$xs',
+    fontWeight: 'bold',
+  },
 })
 
 const contentShow = keyframes({
@@ -76,15 +94,11 @@ export const CartProduct = styled('div', {
     flexDirection: 'column',
     gap: '1rem',
 
-    span: {},
-
-    strong: {},
-
     button: {
       border: 0,
       background: 'transparent',
       color: '$green500',
-      fontSize: '$1rem',
+      fontSize: '$sm',
       fontWeight: 'bold',
       cursor: 'pointer',
 

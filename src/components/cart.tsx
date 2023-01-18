@@ -59,6 +59,7 @@ export function Cart() {
   return (
     <Dialog.Root>
       <CartTrigger>
+        {items.length > 0 && <span>{items.length}</span>}
         <Handbag size={24} weight="bold" />
       </CartTrigger>
 
