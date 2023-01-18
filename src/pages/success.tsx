@@ -24,8 +24,6 @@ export default function Success({
       </Head>
 
       <SuccessContainer>
-        <h1>Compra efetuada!</h1>
-
         <div>
           {productImageUrls.map((imageUrl) => (
             <ImageContainer key={imageUrl}>
@@ -33,6 +31,8 @@ export default function Success({
             </ImageContainer>
           ))}
         </div>
+
+        <h1>Compra efetuada!</h1>
 
         <p>
           Uhuul <strong>{customerName}</strong>, seu pedido já está a caminho da
