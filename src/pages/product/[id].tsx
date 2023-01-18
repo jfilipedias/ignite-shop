@@ -42,7 +42,7 @@ export default function Product({
   return (
     <>
       <Head>
-        <title>{name} | Ignite Shop</title>
+        <title>{`${name} | Ignite Shop`}</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
 
