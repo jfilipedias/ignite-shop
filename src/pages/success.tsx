@@ -8,12 +8,12 @@ import { ImageContainer, SuccessContainer } from '@styles/pages/success'
 
 interface SuccessProps {
   customerName: string
-  productImageUrl: string
+  productImageUrls: string[]
 }
 
 export default function Success({
   customerName,
-  productImageUrl,
+  productImageUrls,
 }: SuccessProps) {
   return (
     <>
@@ -26,9 +26,13 @@ export default function Success({
       <SuccessContainer>
         <h1>Compra efetuada!</h1>
 
-        <ImageContainer>
-          <Image src={productImageUrl} alt="" width={120} height={110} />
-        </ImageContainer>
+        <div>
+          {productImageUrls.map((imageUrl) => (
+            <ImageContainer key={imageUrl}>
+              <Image src={imageUrl} alt="" width={120} height={110} />
+            </ImageContainer>
+          ))}
+        </div>
 
         <p>
           Uhuul <strong>{customerName}</strong>, seu pedido já está a caminho da
@@ -58,12 +62,15 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
   })
 
   const customerName = session.customer_details?.name
-  const product = session.line_items?.data[0].price?.product as Stripe.Product
+  const products = session.line_items?.data.map((item) => {
+    return item.price?.product as Stripe.Product
+  })
+  const productImageUrls = products?.map((product) => product.images[0])
 
   return {
     props: {
       customerName,
-      productImageUrl: product.images[0],
+      productImageUrls,
     },
   }
 }
